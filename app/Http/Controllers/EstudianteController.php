@@ -12,15 +12,17 @@ class EstudianteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index()
     {
         //
+        $estudiantes = Estudiante::where('estado', 1)->get();
+        return response()->json($estudiantes, 200);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response
+    public function create()
     {
         //
     }
@@ -28,15 +30,25 @@ class EstudianteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
+        $validData = $request->validate([
+            'nombre' => 'required|string'
+        ]);
+
+        $estudiante = Estudiante::create([
+            'nombre' => $validData['nombre'],
+            'estado' => 1
+        ]);
+
+        return response()->json(['message' => 'Estudiante registrado.'], 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Estudiante $estudiante): Response
+    public function show($id)
     {
         //
     }
@@ -44,7 +56,7 @@ class EstudianteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Estudiante $estudiante): Response
+    public function edit($id)
     {
         //
     }
@@ -52,7 +64,7 @@ class EstudianteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Estudiante $estudiante): RedirectResponse
+    public function update(Request $request, $id)
     {
         //
     }
@@ -60,7 +72,7 @@ class EstudianteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Estudiante $estudiante): RedirectResponse
+    public function destroy($id)
     {
         //
     }
