@@ -113,7 +113,7 @@ class EstudianteController extends Controller
 
             $varAux = explode($separador, $value->calificaciones);
             
-            array_push($finalArray, ["n1" => (float)$varAux[0]], ["n2" => (float)$varAux[1]], ["n3" => (float)$varAux[2]], ["n4" => (float)$varAux[3]], ["examen" => (float)$varAux[4]]);
+            array_push($finalArray, ["n1" => (float)$varAux[0], "n2" => (float)$varAux[1], "n3" => (float)$varAux[2], "n4" => (float)$varAux[3], "examen" => (float)$varAux[4]]);
 
             $value->calificaciones = $finalArray;
         }
