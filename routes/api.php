@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\NotaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,10 @@ use App\Http\Controllers\EstudianteController;
 */
 
 Route::resource('estudiantes', EstudianteController::class);
+Route::get('estudiantes-sin-nota', [EstudianteController::class, 'getEstudiantesSinNota']);
+Route::get('estudiantes-con-nota', [EstudianteController::class, 'getEstudiantesConNota']);
+
+Route::resource('notas', NotaController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

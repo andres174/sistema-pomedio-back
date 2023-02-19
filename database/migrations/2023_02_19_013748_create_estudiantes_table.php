@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('estudiantes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('estado');
+            $table->boolean('estado');
         });
     }
 

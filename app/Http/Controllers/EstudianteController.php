@@ -6,6 +6,7 @@ use App\Models\Estudiante;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class EstudianteController extends Controller
 {
@@ -75,5 +76,49 @@ class EstudianteController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getEstudiantesSinNota(){
+
+        $estAll = DB::table('estudiantes')
+        ->where('estado', 1)
+        ->get();
+
+        $estSinNota = Array();
+
+        foreach ($estAll as $key => $value) {
+            
+            if(!DB::table('notas')->where('id_estudiante', $value->id)->exists()){
+                array_push($estSinNota, $value);
+            }
+ 
+        }
+
+        return response()->json($estSinNota, 200);
+
+    }
+
+    public function getEstudiantesConNota(){
+
+        $estConNota = DB::table('estudiantes')
+        ->join('notas', 'estudiantes.id', '=', 'notas.id_estudiante')
+        ->select('estudiantes.*', 'notas.*')
+        ->get();
+
+        $separador = ",";
+        
+        foreach ($estConNota as $key => $value) {
+
+            $finalArray = Array();
+
+            $varAux = explode($separador, $value->calificaciones);
+            
+            array_push($finalArray, ["n1" => $varAux[0]], ["n2" => $varAux[1]], ["n3" => $varAux[2]], ["n4" => $varAux[3]], ["examen" => $varAux[4]]);
+
+            $value->calificaciones = $finalArray;
+        }
+
+        return response()->json($estConNota, 200);
+
     }
 }

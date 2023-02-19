@@ -28,9 +28,22 @@ class NotaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
+
+        $validData = $request->validate([
+            'calificaciones' => 'required|string',
+            'id_estudiante' => 'required'
+        ]);
+
+        $nota = Nota::create([
+            'calificaciones' => $validData['calificaciones'],
+            'id_estudiante' => $validData['id_estudiante'],
+            'estado' => 1
+        ]);
+
+        return response()->json(['message' => 'Notas registradas.'], 200);
     }
 
     /**

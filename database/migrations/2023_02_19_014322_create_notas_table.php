@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('calificaciones');
             $table->foreignId('id_estudiante')->constrained('estudiantes');
-            $table->string('estado');
+            $table->boolean('estado');
         });
     }
 
