@@ -113,7 +113,7 @@ class EstudianteController extends Controller
 
             $varAux = explode($separador, $value->calificaciones);
             
-            array_push($finalArray, ["n1" => $varAux[0]], ["n2" => $varAux[1]], ["n3" => $varAux[2]], ["n4" => $varAux[3]], ["examen" => $varAux[4]]);
+            array_push($finalArray, ["n1" => (float)$varAux[0]], ["n2" => (float)$varAux[1]], ["n3" => (float)$varAux[2]], ["n4" => (float)$varAux[3]], ["examen" => (float)$varAux[4]]);
 
             $value->calificaciones = $finalArray;
         }
@@ -121,4 +121,66 @@ class EstudianteController extends Controller
         return response()->json($estConNota, 200);
 
     }
+
+    public function getEstudiantesSinProm(){
+
+        $estNota = DB::table('estudiantes')
+        ->join('notas', 'estudiantes.id', '=', 'notas.id_estudiante')
+        ->select('estudiantes.*', 'notas.id as id_notas', 'notas.calificaciones', 'notas.id_estudiante')
+        ->get();
+
+        $separador = ",";
+        
+        foreach ($estNota as $key => $value) {
+
+            $finalArray = Array();
+
+            $varAux = explode($separador, $value->calificaciones);
+            
+            array_push($finalArray, ["n1" => (float)$varAux[0], "n2" => (float)$varAux[1], "n3" => (float)$varAux[2], "n4" => (float)$varAux[3], "examen" => (float)$varAux[4]]);
+
+            $value->calificaciones = $finalArray;
+        }
+
+        $estSinProm = Array();
+
+        foreach ($estNota as $key => $value) {
+            
+            if(!DB::table('proms')->where('id_notas', $value->id_notas)->exists()){
+                array_push($estSinProm, $value);
+            }
+ 
+        }
+
+        return response()->json($estSinProm, 200);
+
+    }
+
+    public function getEstudiantesConProm(){
+
+        $estProm = DB::table('estudiantes')
+        ->join('notas', 'estudiantes.id', '=', 'notas.id_estudiante')
+        ->join('proms', 'notas.id', '=', 'proms.id_notas')
+        ->select('estudiantes.*', 'notas.calificaciones', 'proms.promedio')
+        ->get();
+
+        $separador = ",";
+        
+        foreach ($estProm as $key => $value) {
+
+            $finalArray = Array();
+
+            $varAux = explode($separador, $value->calificaciones);
+            
+            array_push($finalArray, ["n1" => (float)$varAux[0], "n2" => (float)$varAux[1], "n3" => (float)$varAux[2], "n4" => (float)$varAux[3], "examen" => (float)$varAux[4]]);
+
+            $value->calificaciones = $finalArray;
+        }
+
+        return response()->json($estProm, 200);
+
+    }
+
+
+
 }

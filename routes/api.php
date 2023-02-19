@@ -19,6 +19,8 @@ use App\Http\Controllers\NotaController;
 Route::resource('estudiantes', EstudianteController::class);
 Route::get('estudiantes-sin-nota', [EstudianteController::class, 'getEstudiantesSinNota']);
 Route::get('estudiantes-con-nota', [EstudianteController::class, 'getEstudiantesConNota']);
+Route::get('estudiantes-sin-prom', [EstudianteController::class, 'getEstudiantesSinProm']);
+Route::get('estudiantes-con-prom', [EstudianteController::class, 'getEstudiantesConProm']);
 
 Route::resource('notas', NotaController::class);
 

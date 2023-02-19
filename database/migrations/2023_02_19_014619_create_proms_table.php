@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('proms', function (Blueprint $table) {
             $table->id();
-            $table->string('promedio');
+            $table->decimal('promedio', 10, 2);
             $table->foreignId('id_notas')->constrained('notas');
             $table->boolean('estado');
         });
