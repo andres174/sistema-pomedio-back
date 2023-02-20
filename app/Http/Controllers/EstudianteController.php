@@ -175,6 +175,8 @@ class EstudianteController extends Controller
             array_push($finalArray, ["n1" => (float)$varAux[0], "n2" => (float)$varAux[1], "n3" => (float)$varAux[2], "n4" => (float)$varAux[3], "examen" => (float)$varAux[4]]);
 
             $value->calificaciones = $finalArray;
+
+            $value->promedio = (float)$value->promedio; 
         }
 
         return response()->json($estProm, 200);
