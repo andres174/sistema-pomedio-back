@@ -28,9 +28,22 @@ class PromController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
+        $validData = $request->validate([
+            'promedio' => 'required',
+            'id_notas' => 'required'
+        ]);
+
+        $promedio = Prom::create([
+            'promedio' => $validData['promedio'],
+            'id_notas' => $validData['id_notas'],
+            'estado' => 1
+        ]);
+
+        return response()->json(['message' => 'Promedio registrado.'], 200);
+
     }
 
     /**
